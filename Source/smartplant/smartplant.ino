@@ -34,7 +34,6 @@ int readingsm[MAXREADS] = {0};
 int readIndexm = 0;
 long totalm = 0;
 //->Variables IoT
-int status = WL_IDLE_STATUS;
 WiFiClient client;
 
 //Subrutinas y/o funciones
@@ -96,13 +95,12 @@ void printWifiStatus() {
 
 void WiFiInit() {
   //Attempt a WiFi connection to desired access point at ssid, password
-  if (status != WL_CONNECTED) {
+  if (WiFi.status() != WL_CONNECTED) {
     Serial.print("Attempting to connect to SSID: ");
     Serial.println(SSIDNAME);
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-    WiFi.mode(WIFI_STA);
     while (WiFi.status() != WL_CONNECTED) {
-      status = WiFi.begin(SSIDNAME, SSIDPASS);
+      WiFi.begin(SSIDNAME, SSIDPASS);
       Serial.print('.');
       delay(5000); //Wait 5 secs for establishing connection      
     }
@@ -125,6 +123,7 @@ void setup() {
   //Comunicaciones
   Serial.begin(9600); //Comunicaciones seriales para debug con el PC
   MeasInitialize(); //Inicio suavizado
+  WiFi.mode(WIFI_STA);
   delay(1000);  //Espera 1 segundo a que se inizalice el NodeMCU
   WiFiInit(); //Conectar a WiFi
   ThingSpeak.begin(client);
