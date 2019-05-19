@@ -19,7 +19,7 @@
 #define SSIDNAME "ARRIS"  //SSID Name
 #define SSIDPASS "Tony050794" //SSID Pass
 #define TSKEY "7WFD9WNB5S68KGB6"  //Thingspeak API Key write  
-#define CHANNUM "0000000" //Thingspeak Channel Number
+#define CHANNUM "568027" //Thingspeak Channel Number
 
 //Variables
 float m = 0;  //Variable para almacenar la humedad del suelo
