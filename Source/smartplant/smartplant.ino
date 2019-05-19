@@ -15,7 +15,7 @@
 #define SMWAT 100 //Porcentaje de humedad maximo
 #define MAXREADS 24 //Máximo de muestras para suavizar
 #define MUESTREO 1000 //Tiempo de muestreo cada 1000 milisecs
-#define TPOST 15000 //Tiempo de envio de datos cada 30000 milisecs
+#define TPOST 15000 //Tiempo de envio de datos cada 15000 milisecs
 #define SSIDNAME "ARRIS"  //SSID Name
 #define SSIDPASS "Tony050794" //SSID Pass
 #define TSKEY "7WFD9WNB5S68KGB6"  //Thingspeak API Key write  
