@@ -125,32 +125,32 @@ void setup() {
   //Comunicaciones
   Serial.begin(9600); //Comunicaciones seriales para debug con el PC
   MeasInitialize(); //Inicio suavizado
-  delay(1000);  //Wait 1 sec for module initialization
-  WiFiInit(); //WiFi communications initialization
+  delay(1000);  //Espera 1 segundo a que se inizalice el NodeMCU
+  WiFiInit(); //Conectar a WiFi
   ThingSpeak.begin(client);
 }
 
 void loop() {
-  WiFiInit(); //Reconnect to WiFi
-  inputm = smooth(SOIL, totalm, readingsm, readIndexm);
+  WiFiInit(); //Reconectar a WiFi si se cae la conexión
+  inputm = smooth(SOIL, totalm, readingsm, readIndexm); //Suavizo entrada de sensor
   shumidctrl(); //Activo control de riego
-  if (millis() - tprev >= MUESTREO) {
-    m = flmap(inputm, ADCAIR, ADCWAT, SMAIR, SMWAT);
-    ThingSpeak.setField(1, m);
-    ThingSpeak.setField(2, wvalstate);
+  if (millis() - tprev >= MUESTREO) { //Tomo muestras cada periodo de MUESTREO
+    m = flmap(inputm, ADCAIR, ADCWAT, SMAIR, SMWAT);  //Mapeo la entrada del sensor a porcentaje
+    ThingSpeak.setField(1, m);  //Guardo el field 1 de ThingSpeak con la humedad
+    ThingSpeak.setField(2, wvalstate); //Guardo el field 2 de ThingSpeak con el estado de la valvula
     //Serial.println("Medicion RAW: " + String(analogRead(SOIL)) + " Medicion Suavizada: " + String(inputm) + " Humedad del suelo(%): " + String(m));
-    tprev = millis();
+    tprev = millis(); //Reseteo tprev
   }
   if (millis() - tprevtx >= TPOST) {
-    int x = ThingSpeak.writeFields(CHANNUM, TSKEY)
-    if (x == 200) {
-      digitalWrite(LED, LOW);
+    int x = ThingSpeak.writeFields(CHANNUM, TSKEY)  //Intento de envio de todos los field a ThingSpeak
+    if (x == 200) { //Si el resultado fue exitoso, prendo el LED
+      digitalWrite(LED, LOW); //Prendo el LED
       Serial.println("Channel update successful.");
     }
-    else {
+    else { //En otro caso muestro error de conexión
       Serial.println("Problem updating channel. HTTP error code " + String(x));
     }
-    tprevtx = millis();
+    tprevtx = millis(); //Reseteo tprevtx
   }
-  digitalWrite(LED, HIGH);
+  digitalWrite(LED, HIGH);  //Apago LED
 }
