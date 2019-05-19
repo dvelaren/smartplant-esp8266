@@ -137,7 +137,7 @@ void loop() {
   if (millis() - tprev >= MUESTREO) {
     m = flmap(inputm, ADCAIR, ADCWAT, SMAIR, SMWAT);
     ThingSpeak.setField(1, m);
-    ThingSpeak.setField(2,wvalstate);
+    ThingSpeak.setField(2, wvalstate);
     //Serial.println("Medicion RAW: " + String(analogRead(SOIL)) + " Medicion Suavizada: " + String(inputm) + " Humedad del suelo(%): " + String(m));
     tprev = millis();
   }
